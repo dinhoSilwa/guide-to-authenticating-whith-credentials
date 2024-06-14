@@ -1,6 +1,6 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials'
-import getUserByEmail from '@/app/api/getuserbyemail'
+import { getUserByEmail } from "@/db/users";
 
 export const {
   handlers : {GET , POST}, auth , signIn , signOut
@@ -15,7 +15,7 @@ export const {
       async authorize(credentials){
           if(credentials === null) return null;
           try{
-            const user = getUserByEmail(credentials.email);
+            const user = getUserByEmail(credentials.email as string);
             if(user){
               const isMatch = credentials.password === user.password
 
@@ -27,8 +27,8 @@ export const {
             }else{
               throw new Error("Nenhum usuário encontrado")
             }
-          }catch(error{
-            throw new Error(error)
+          }catch(error){
+            throw new Error(error as any)
           }
       }
     })
