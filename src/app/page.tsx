@@ -1,8 +1,10 @@
-import Image from "next/image";
-import Link from "next/link";
+import { auth } from "./auth";
+import LoginPage from "./loginpage/page";
+import HomePage from "./home/page";
 
-export default function Home() {
-  return (
-<LoginPage />
-  );
+export default async function Home() {
+  const session = await auth();
+
+  if (!session?.user) return <LoginPage />;
+  return <HomePage />;
 }

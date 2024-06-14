@@ -1,7 +1,9 @@
 import Link from "next/link";
 
 export default function LoginPage(){
-  <main>
+  return(
+    <>
+    <main>
   <form>
     <input type="text" id="email" name="inputemail" />
     <input type="password" id="password" name="password" />
@@ -11,4 +13,6 @@ export default function LoginPage(){
     você já tem uma conta ? <Link href={"/login"}>Faça login</Link>
   </div>
 </main>
+    </>
+  )
 }
