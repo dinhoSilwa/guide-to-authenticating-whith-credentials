@@ -1,10 +1,11 @@
+import { doCredentialLogin } from "@/actions/credentials";
 import Link from "next/link";
 
 export default function LoginPage(){
   return(
     <>
     <main>
-  <form>
+  <form action={doCredentialLogin}>
     <input type="text" id="email" name="inputemail" />
     <input type="password" id="password" name="password" />
     <button type="submit">Cadastrar</button>
