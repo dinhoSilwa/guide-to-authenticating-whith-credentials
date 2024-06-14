@@ -1,8 +1,10 @@
-import { Icredentials } from "@/types/credentials";
+import { getUserByEmail } from "@/db/users";
 
-export const doCredentialLogin = async (formData : FormData) =>{
-  const newCredentialsRegister = [
-    {email : formData.get("email"), password : formData.get("password")}
-  ]
-  console.log(newCredentialsRegister)
-}
+export const doCredentialLogin = async (formData: FormData) => {
+  const useremail = getUserByEmail(formData.get("email") as string);
+  if (!useremail) {
+    return console.log("Não encontrei o email , liberado");
+  }
+
+  console.log("Email já existe, não autorizado");
+};

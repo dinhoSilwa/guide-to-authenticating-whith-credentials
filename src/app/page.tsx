@@ -1,3 +1,4 @@
+"use server"
 import { auth } from "./auth";
 import LoginPage from "./loginpage/page";
 import HomePage from "./home/page";
