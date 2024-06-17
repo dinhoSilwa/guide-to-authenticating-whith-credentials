@@ -6,9 +6,11 @@ import { useForm } from "react-hook-form";
 import { registerUserSchema } from "@/lib/model/userregister";
 import toast, { Toaster } from "react-hot-toast";
 import { CircleArrowRight, FormInput, Loader, Spline } from "lucide-react";
+import { useRouter } from "next/navigation";
 
-export default function LoginPage() {
+export default function Signinpage() {
   const [isloading, setisloading] = useState(false);
+  const router = useRouter()
 
   const notify = (msg: string) => toast(msg);
 
@@ -23,7 +25,7 @@ export default function LoginPage() {
   const OnsubmitRegister = async (formData: FormEvent) => {
     setisloading(!isloading);
     try {
-      const response = await fetch(`/users/api/register`, {
+      const response = await fetch(`/api/users/register`, {
         method: "POST",
         headers: {
           "content-type": "aplication/json",
@@ -39,6 +41,7 @@ export default function LoginPage() {
       notify("✅ Cadastrado com Sucesso");
       setTimeout(() => {
         setisloading(false);
+        router.push("/")
       }, 4000);
     } catch (error) {
       notify("❌ Falha o Cadastrar");
@@ -53,8 +56,15 @@ export default function LoginPage() {
           onSubmit={handleSubmit(OnsubmitRegister as any)}
           className="flex flex-col gap-4 border rounded-lg px-2 w-1/2 p-6"
         >
-          <legend>Entre na sua Conta</legend>
-      
+          <legend>Cadastre-se</legend>
+          <input
+            type="text"
+            id="username"
+            className="p-2 rounded-md text-black"
+            placeholder="digite o seu username"
+            {...register("username")}
+           
+          />
           {errors.username && (
             <span className="text-red-600">{errors.username.message}</span>
           )}
@@ -95,11 +105,11 @@ export default function LoginPage() {
                 <CircleArrowRight />
               </div>
             )}
-            Entrar
+            Cadastrar
           </button>
         </form>
         <div className="text-[12px]">
-          ainda não tem uma conta ? <Link href={"/signinpage"} className="underline">Cadastre-se</Link>
+          você já tem uma conta ? <Link href={"/"} className="underline">Faça login</Link>
         </div>
       </main>
     </>

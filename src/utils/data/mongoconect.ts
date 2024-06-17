@@ -26,7 +26,7 @@ export const db = async () => {
 
     // Aguarde a promessa resolver e armazene a conexão
     cached.conn = await cached.promise;
-    console.log("Conexão Feita com Sucesso", cached.conn);
+    console.log("Conexão Feita com Sucesso");
     return cached.conn;
   } catch (error) {
     console.error("Falha ao Conectar ao mongoose");
