@@ -1,6 +1,5 @@
 import NextAuth from "next-auth";
 import CredentialsProvider from 'next-auth/providers/credentials'
-import { getUserByEmail } from "@/db/users";
 
 export const {
   handlers : {GET , POST}, auth , signIn , signOut
@@ -9,27 +8,15 @@ export const {
   providers : [
     CredentialsProvider({
       credentials : {
+        username : {},
         email : {},
         password : {}
       },
       async authorize(credentials){
-          if(credentials === null) return null;
-          try{
-            const user = getUserByEmail(credentials.email as string);
-            if(user){
-              const isMatch = credentials.password === user.password
 
-              if(isMatch){
-                return user
-              }else{
-                 throw new Error("O Email ou senha não estão corretos")
-              }
-            }else{
-              throw new Error("Nenhum usuário encontrado")
-            }
-          }catch(error){
-            throw new Error(error as any)
-          }
+        // conectar com o mongo db
+        // verificar se o email existe 
+        // verificar se a senha é compativel
       }
     })
   ]
