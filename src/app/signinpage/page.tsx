@@ -2,15 +2,19 @@
 import { yupResolver } from "@hookform/resolvers/yup";
 import Link from "next/link";
 import { FormEvent, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { registerUserSchema } from "@/lib/model/userregister";
 import toast, { Toaster } from "react-hot-toast";
 import { CircleArrowRight, FormInput, Loader, Spline } from "lucide-react";
 import { useRouter } from "next/navigation";
+import { url } from "inspector";
+import axios, { AxiosResponse } from "axios";
+import { IRegisterUser } from "@/types/registeruser";
+import { IapiResponse } from "../api/users/register/route";
 
 export default function Signinpage() {
   const [isloading, setisloading] = useState(false);
-  const router = useRouter()
+  const router = useRouter();
 
   const notify = (msg: string) => toast(msg);
 
@@ -22,29 +26,23 @@ export default function Signinpage() {
     resolver: yupResolver(registerUserSchema),
   });
 
-  const OnsubmitRegister = async (formData: FormEvent) => {
-    setisloading(!isloading);
-    try {
-      const response = await fetch(`/api/users/register`, {
-        method: "POST",
-        headers: {
-          "content-type": "aplication/json",
-        },
-        body: JSON.stringify({ formData }),
-      });
+  const [responseData, setResponseData] = useState<any>();
 
-      if (response.status !== 200) {
-        setisloading(false);
-        notify("❌ Falha ao Enviar o Formulário");
-        return;
+  const OnsubmitRegister = async (formData: FormEvent): Promise<void> => {
+    try {
+      const response: AxiosResponse<IapiResponse> = await axios.post(
+        "/api/users/register",
+        formData
+      );
+      if (response.data.status === 201) {
+        notify("✅ Usuário Criado com Sucesso");
+        router.push('/')
+   
+      } else {
+        notify(response.data.msg);
       }
-      notify("✅ Cadastrado com Sucesso");
-      setTimeout(() => {
-        setisloading(false);
-        router.push("/")
-      }, 4000);
-    } catch (error) {
-      notify("❌ Falha o Cadastrar");
+    } catch (error: any) {
+      notify(error);
     }
   };
 
@@ -52,6 +50,7 @@ export default function Signinpage() {
     <>
       <Toaster />
       <main className="py-20 flex flex-col items-center justify-center gap-4">
+        {responseData}
         <form
           onSubmit={handleSubmit(OnsubmitRegister as any)}
           className="flex flex-col gap-4 border rounded-lg px-2 w-1/2 p-6"
@@ -63,7 +62,6 @@ export default function Signinpage() {
             className="p-2 rounded-md text-black"
             placeholder="digite o seu username"
             {...register("username")}
-           
           />
           {errors.username && (
             <span className="text-red-600">{errors.username.message}</span>
@@ -109,7 +107,10 @@ export default function Signinpage() {
           </button>
         </form>
         <div className="text-[12px]">
-          você já tem uma conta ? <Link href={"/"} className="underline">Faça login</Link>
+          você já tem uma conta ?{" "}
+          <Link href={"/"} className="underline">
+            Faça login
+          </Link>
         </div>
       </main>
     </>

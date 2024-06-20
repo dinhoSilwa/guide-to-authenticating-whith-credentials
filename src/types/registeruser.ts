@@ -5,3 +5,8 @@ export interface IRegisterUser {
   createdAt?:any;
   updateAt?:any
 }
+
+export interface ILoginUser {
+  email : string;
+  password : string
+}

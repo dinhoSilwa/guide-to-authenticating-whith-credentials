@@ -1,26 +1,22 @@
-import NextAuth from "next-auth";
-import CredentialsProvider from 'next-auth/providers/credentials'
+// import User from "@/lib/model/user-mongoose";
+// import NextAuth from "next-auth";
+// import CredentialsProvider from 'next-auth/providers/credentials'
+// import bcryptjs from 'bcryptjs'
 
-export const {
-  handlers : {GET , POST}, auth , signIn , signOut
-} = NextAuth({
-  session : {strategy : 'jwt',},
-  providers : [
-    CredentialsProvider({
-      credentials : {
-        username : {},
-        email : {},
-        password : {}
-      },
-      async authorize(credentials){
+// export const {
+//   handlers : {GET , POST}, auth , signIn , signOut
+// } = NextAuth({
+//   session : {strategy : 'jwt',},
+//   providers : [
+//     CredentialsProvider({
+//       credentials : {
+//         email : {},
+//         password : {}
+//       },
 
-        // conectar com o mongo db
-        // verificar se o email existe 
-        // verificar se a senha é compativel
-      }
-    })
-  ]
-})
+//     })
+//   ]
+// })
 
 
 // Here's a summary of the code:

@@ -12,5 +12,5 @@ const userRegistrationSchema: Schema<IRegisterUser & Document> = new Schema(
   }
 );
 
-const UserModel = mongoose.models.altenticatedUsers || mongoose.model<IRegisterUser & Document>("altenticatedUsers", userRegistrationSchema);
-export default UserModel;
+const User = mongoose.models.altenticatedUsers || mongoose.model<IRegisterUser & Document>("altenticatedUsers", userRegistrationSchema);
+export default User;
